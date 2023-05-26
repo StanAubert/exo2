@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <h1>Lieux Insolites</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Date de création</th>
+                <th>dernière modification</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for place in places %}
+            <tr>
+                <td>{{ place.id }}</td>
+                <td>{{ place.name }}</td>
+                <td>{{ place.description }}</td>
+                <td>{{ place.latitude }}</td>
+                <td>{{ place.longitude }}</td>
+                <td>{{ place.CreatedAt ? place.CreatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ place.ModifiedAt ? place.ModifiedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_place_show', {'id': place.id}) }}">détails</a>
+                    <a href="{{ path('app_place_edit', {'id': place.id}) }}">modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_place_new') }}">ajouter un lieu</a>
+{% endblock %}
