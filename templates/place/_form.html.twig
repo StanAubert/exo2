@@ -1,11 +1,26 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <div
-        data-form-collection-index-value={{ form.pictures|length > 0 ? form.pictures|last.vars.name + 1 : 0 }}
-        data-form-collection-prototype-value={{ form_widget(form.pictures.vars.prototype)|e('html_attr') }}
+    <div>
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name) }}
+    </div>
+    <div>
+        {{ form_label(form.description) }}
+        {{ form_widget(form.description) }}
+    </div>
+    <div>
+        {{ form_label(form.latitude) }}
+        {{ form_widget(form.latitude) }}
+    </div>
+    <div>
+        {{ form_label(form.longitude) }}
+        {{ form_widget(form.longitude) }}
+    </div>
+    <div data-controller ="form-collection"
+        data-form-collection-index-value="{{ form.pictures|length > 0 ? form.pictures|last.vars.name + 1 : 0 }}"
+        data-form-collection-prototype-value="{{ form_widget(form.pictures.vars.prototype)|e('html_attr') }}"
     >
-    <ul stimulus_target('form-collection', 'collectionContainer')></ul>
-    <button type="button"  stimulus_action('form-collection', 'addCollectionElement')>Ajouter une image</button>
+    <ul  data-form-collection-target = "collectionContainer"></ul>
+    <button type="button"  data-form-collection-action = 'addCollectionElement'>Ajouter une image</button>
         {% for picture in place.pictures %}
             <li>{{ form_row(picture.title) }}</li>
             <li>{{ form_row(picture.file) }}</li>
