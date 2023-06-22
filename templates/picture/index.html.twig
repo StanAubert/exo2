@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des images{% endblock %}
+
+{% block body %}
+    <h1>Les images du lieu : {{ place.name }} </h1>
+    <a href="{{ path('app_place_index') }}" class="btn btn-secondary">Retour</a> <a href="{{ path('app_picture_new',{place_id:place.id}) }}" class="btn btn-primary">Ajouter</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>File</th>
+                <th>CreatedAt</th>
+                <th>ModifiedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for picture in place.pictures %}
+            <tr>
+                <td>{{ picture.id }}</td>
+                <td>{{ picture.title }}</td>
+                <td><img src="{{ asset('uploads/place/' ~ picture.file) }}" width="100"></td>
+                <td>{{ picture.createdAt ? picture.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ picture.modifiedAt ? picture.modifiedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_picture_edit', {'id': picture.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+   
+{% endblock %}

@@ -28,8 +28,9 @@
                 <td>{{ place.CreatedAt ? place.CreatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ place.ModifiedAt ? place.ModifiedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_place_show', {'id': place.id}) }}">détails</a>
-                    <a href="{{ path('app_place_edit', {'id': place.id}) }}">modifier</a>
+                    <a class="btn btn-primary" href="{{ path('app_place_show', {'id': place.id}) }}">détails</a>
+                    <a class="btn btn-secondary" href="{{ path('app_place_edit', {'id': place.id}) }}">modifier</a>
+                    <a class="btn btn-info" href="{{ path('app_picture_index', {'place_id': place.id}) }}">Photos</a>
                 </td>
             </tr>
         {% else %}

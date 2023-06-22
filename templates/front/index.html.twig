@@ -1,7 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Bienvenue{% endblock %}
+{% block title %}Tous les lieux insolites !{% endblock %}
 
 {% block body %}
-    <h1>Bienvenue</h1>
+<div data-controller="search">
+    <input data-action="input->search#searching" data-search-target="search_input" type="text" placeholder="rechercher"/>
+    <div class="btn btn-primary" data-action="click->search#searching"> rechercher</div> 
+    <p data-search-target="search_results"></p>
+</div>
+
+<section class="row">
+{% for place in places %}
+    <article class="col-4">
+        <div class="row">
+            <div class="col-6">
+                <h2>{{ place.name }}</h2>
+                <p class="lead">
+                    Posté par {{ place.author.username }} le {{ place.createdAt|date('d/m/Y')}}
+                </p>
+                {% if place.pictures|length > 0 %}
+            <img title="{{ place.pictures.0.title }}" src="{{ asset('uploads/place/' ~ place.pictures.0.file) }}" class="img-fluid">
+            {% else %}
+                <img title="default" src="{{ asset('uploads/place/placeholder.png') }}" class="img-fluid">
+            {% endif %}
+            </div>
+            <div class="col-6 mt-2 text-end">
+                <a href="{{ path('app_place_show', {'id': place.id}) }}" class="btn btn-info">détails</a>  
+            </div>
+        
+        </div>
+    </article>
+{% endfor %}
+</section>
+
 {% endblock %}

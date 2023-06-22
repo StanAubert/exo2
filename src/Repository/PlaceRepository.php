@@ -39,28 +39,16 @@ class PlaceRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Place[] Returns an array of Place objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Place
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+   /**
+    * @return Place[] Returns an array of Place objects
+    */
+   public function findBySearchKeywords($value): array
+   {
+    return $this->createQueryBuilder('p')
+    ->where('p.name LIKE :val OR p.description LIKE :val')
+    ->setParameter('val', "%$value%")
+    ->getQuery()
+    ->getResult();
+       ;
+   }
 }

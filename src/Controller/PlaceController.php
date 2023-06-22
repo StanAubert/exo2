@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Picture;
 use App\Entity\Place;
 use App\Form\PlaceType;
 use App\Repository\PlaceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,14 +24,18 @@ class PlaceController extends AbstractController
     }
 
     #[Route('/new', name: 'app_place_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, PlaceRepository $placeRepository): Response
+    public function new(Request $request, PlaceRepository $placeRepository, SluggerInterface $sluggerInterface): Response
     {
         $place = new Place();
+        $picture = new Picture();
         $form = $this->createForm(PlaceType::class, $place);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $place->setCreatedAt(new \DateTimeImmutable);
+            $place->setUser($this->getUser());
+            $place->setSlug($sluggerInterface->slug($place->getName())->lower());
+            $place->addPicture($picture);
             $placeRepository->save($place, true);
 
             return $this->redirectToRoute('app_place_index', [], Response::HTTP_SEE_OTHER);
